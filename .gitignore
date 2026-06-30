@@ -1,0 +1,15 @@
+# secrets — never commit real API keys
+.env
+.api
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# data / outputs — not distributed (see README for how to obtain data)
+data/
+results/
+responses_csv*/
+logs/

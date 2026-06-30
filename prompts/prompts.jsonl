@@ -1,0 +1,54 @@
+{"id": "INSTR-001_en", "prompt": "Listen to the audio. On a scale from 1 to 7, where 1 means “not rounded” and 7 means “very rounded”, how rounded does this sound? Reply with only a single integer from 1 to 7. (In this task, “rounded” refers to: rounded, bloblike, amoeboid.)", "lingual": "en"}
+{"id": "INSTR-002_en", "prompt": "Listen to the audio. On a scale from 1 to 7, where 1 means “not pointed” and 7 means “very pointed”, how pointed does this sound? Reply with only a single integer from 1 to 7. (In this task, “pointed” refers to: pointed, angular, jagged.)", "lingual": "en"}
+{"id": "INSTR-015_en", "prompt": "You will hear a sound. There are two shapes: one rounded and one spiky. Which shape corresponds to the sound? Reply with only one word: “rounded” or “spiky”.", "lingual": "en"}
+{"id": "INSTR-016_en", "prompt": "Look at the two shapes and listen to the sound. Which shape corresponds to the sound? Please choose A or B.", "lingual": "en"}
+{"id": "INSTR-017_en", "prompt": "Look at the picture. On a scale from 1 to 7, where 1 means \"not rounded\" and 7 means \"very rounded\", how rounded does this picture look? Reply with only a single integer from 1 to 7. (In this task, \"rounded\" refers to: rounded, bloblike, amoeboid.)", "lingual": "en"}
+{"id": "INSTR-018_en", "prompt": "Look at the picture. On a scale from 1 to 7, where 1 means \"not pointed\" and 7 means \"very pointed\", how pointed does this picture look? Reply with only a single integer from 1 to 7. (In this task, \"pointed\" refers to: pointed, angular, jagged.)", "lingual": "en"}
+{"id": "INSTR-015_zh-cn", "prompt": "你将听到一个声音。有两个形状：一个圆润、一个尖刺。哪个形状与这个声音相对应？只用一个词回覆：「圆润」或「尖刺」。", "lingual": "zh-cn"}
+{"id": "INSTR-016_zh-cn", "prompt": "看看这两个形状并听声音。哪个形状与声音相对应？请选择A或B。", "lingual": "zh-cn"}
+{"id": "INSTR-015_ja", "prompt": "音が聞こえます。形が2つあります：一つは丸く、一つは尖っています。どちらの形がこの音に対応しますか？「丸い」か「尖った」の一語のみで答えてください。", "lingual": "ja"}
+{"id": "INSTR-016_ja", "prompt": "2つの形を見て、音を聞いてください。どちらの形がその音に対応していますか？AまたはBを選んでください。", "lingual": "ja"}
+{"id": "INSTR-015_ko", "prompt": "소리가 하나 들릴 것입니다. 두 가지 모양이 있습니다: 하나는 둥글고 하나는 뾰족합니다. 어느 모양이 이 소리에 해당하나요? “둥근” 또는 “뾰족한” 한 단어로만 답하세요.", "lingual": "ko"}
+{"id": "INSTR-016_ko", "prompt": "두 개의 모양을 보고 소리를 들어보세요. 어떤 모양이 소리에 해당하나요? A 또는 B를 선택하세요.", "lingual": "ko"}
+{"id": "INSTR-015_fr", "prompt": "Vous allez entendre un son. Il y a deux formes : une arrondie et une pointue. Quelle forme correspond au son ? Répondez par un seul mot : « arrondie » ou « pointue ».", "lingual": "fr"}
+{"id": "INSTR-016_fr", "prompt": "Regardez les deux formes et écoutez le son. Quelle forme correspond au son ? Veuillez choisir A ou B.", "lingual": "fr"}
+{"id": "INSTR-015_es", "prompt": "Escucharás un sonido. Hay dos formas: una redondeada y una puntiaguda. ¿Qué forma corresponde al sonido? Responde solo con una palabra: “redondeada” o “puntiaguda”.", "lingual": "es"}
+{"id": "INSTR-016_es", "prompt": "Mira las dos formas y escucha el sonido. ¿Qué forma corresponde al sonido? Por favor elige A o B.", "lingual": "es"}
+{"id": "INSTR-015_pt", "prompt": "Você ouvirá um som. Há duas formas: uma arredondada e uma pontiaguda. Qual forma corresponde ao som? Responda apenas com uma palavra: “arredondada” ou “pontiaguda”.", "lingual": "pt"}
+{"id": "INSTR-016_pt", "prompt": "Olhe para as duas formas e ouça o som. Qual forma corresponde ao som? Por favor, escolha A ou B.", "lingual": "pt"}
+{"id": "INSTR-015_it", "prompt": "Sentirai un suono. Ci sono due forme: una arrotondata e una appuntita. Quale forma corrisponde al suono? Rispondi solo con una parola: “arrotondata” o “appuntita”.", "lingual": "it"}
+{"id": "INSTR-016_it", "prompt": "Guarda le due forme e ascolta il suono. Quale forma corrisponde al suono? Per favore scegli A o B.", "lingual": "it"}
+{"id": "INSTR-015_de", "prompt": "Sie werden einen Ton hören. Es gibt zwei Formen: eine runde und eine spitze. Welche Form entspricht dem Ton? Antworten Sie nur mit einem Wort: “rund” oder “spitz”.", "lingual": "de"}
+{"id": "INSTR-016_de", "prompt": "Schauen Sie sich die beiden Formen an und hören Sie den Ton. Welche Form entspricht dem Ton? Bitte wählen Sie A oder B.", "lingual": "de"}
+{"id": "INSTR-015_ru", "prompt": "Вы услышите звук. Есть две формы: одна округлая и одна острая. Какая форма соответствует звуку? Ответьте только одним словом: «округлая» или «острая».", "lingual": "ru"}
+{"id": "INSTR-016_ru", "prompt": "Посмотрите на две фигуры и послушайте звук. Какая фигура соответствует звуку? Пожалуйста, выберите A или B.", "lingual": "ru"}
+{"id": "INSTR-015_pl", "prompt": "Usłyszysz dźwięk. Są dwa kształty: jeden zaokrąglony i jeden spiczasty. Który kształt odpowiada dźwiękowi? Odpowiedz tylko jednym słowem: „zaokrąglony” lub „spiczasty”.", "lingual": "pl"}
+{"id": "INSTR-016_pl", "prompt": "Spójrz na dwa kształty i posłuchaj dźwięku. Który kształt odpowiada dźwiękowi? Proszę wybrać A lub B.", "lingual": "pl"}
+{"id": "INSTR-015_tr", "prompt": "Bir ses duyacaksınız. İki şekil var: biri yuvarlak, biri sivri. Hangi şekil sese karşılık geliyor? Yalnızca tek bir kelimeyle yanıtlayın: “yuvarlak” veya “sivri”.", "lingual": "tr"}
+{"id": "INSTR-016_tr", "prompt": "İki şekle bakın ve sesi dinleyin. Hangi şekil sese karşılık geliyor? Lütfen A veya B'yi seçin.", "lingual": "tr"}
+{"id": "INSTR-015_sv", "prompt": "Du kommer att höra ett ljud. Det finns två former: en rundad och en spetsig. Vilken form motsvarar ljudet? Svara endast med ett ord: “rundad” eller “spetsig”.", "lingual": "sv"}
+{"id": "INSTR-016_sv", "prompt": "Titta på de två formerna och lyssna på ljudet. Vilken form motsvarar ljudet? Vänligen välj A eller B.", "lingual": "sv"}
+{"id": "INSTR-015_da", "prompt": "Du vil høre en lyd. Der er to former: en rundet og en spids. Hvilken form svarer til lyden? Svar kun med ét ord: “rundet” eller “spids”.", "lingual": "da"}
+{"id": "INSTR-016_da", "prompt": "Se på de to former og lyt til lyden. Hvilken form svarer til lyden? Vælg venligst A eller B.", "lingual": "da"}
+{"id": "INSTR-015_fi", "prompt": "Kuulet äänen. On kaksi muotoa: yksi pyöreä ja yksi terävä. Kumpi muoto vastaa ääntä? Vastaa vain yhdellä sanalla: “pyöreä” tai “terävä”.", "lingual": "fi"}
+{"id": "INSTR-016_fi", "prompt": "Katso kahta muotoa ja kuuntele ääntä. Mikä muoto vastaa ääntä? Valitse A tai B.", "lingual": "fi"}
+{"id": "INSTR-015_el", "prompt": "Θα ακούσετε έναν ήχο. Υπάρχουν δύο σχήματα: ένα στρογγυλό και ένα αιχμηρό. Ποιο σχήμα αντιστοιχεί στον ήχο; Απαντήστε μόνο με μία λέξη: «στρογγυλό» ή «αιχμηρό».", "lingual": "el"}
+{"id": "INSTR-016_el", "prompt": "Κοιτάξτε τα δύο σχήματα και ακούστε τον ήχο. Ποιο σχήμα αντιστοιχεί στον ήχο; Παρακαλώ επιλέξτε Α ή Β.", "lingual": "el"}
+{"id": "INSTR-015_ro", "prompt": "Vei auzi un sunet. Există două forme: una rotunjită și una ascuțită. Care formă corespunde sunetului? Răspunde doar cu un singur cuvânt: „rotunjită” sau „ascuțită”.", "lingual": "ro"}
+{"id": "INSTR-016_ro", "prompt": "Privește cele două forme și ascultă sunetul. Care formă corespunde sunetului? Te rog să alegi A sau B.", "lingual": "ro"}
+{"id": "INSTR-015_hu", "prompt": "Hallani fogsz egy hangot. Két alak van: egy kerek és egy hegyes. Melyik alak felel meg a hangnak? Csak egyetlen szóval válaszolj: „kerek” vagy „hegyes”.", "lingual": "hu"}
+{"id": "INSTR-016_hu", "prompt": "Nézd meg a két alakzatot, és hallgasd meg a hangot. Melyik alakzat felel meg a hangnak? Kérlek, válaszd az A vagy B lehetőséget.", "lingual": "hu"}
+{"id": "INSTR-015_th", "prompt": "คุณจะได้ยินเสียงหนึ่ง มีรูปร่างสองแบบ: แบบหนึ่งกลมและอีกแบบหนึ่งแหลม รูปร่างใดตรงกับเสียงนี้ ตอบเพียงคำเดียว: “กลม” หรือ “แหลม”", "lingual": "th"}
+{"id": "INSTR-016_th", "prompt": "ดูที่รูปร่างทั้งสองและฟังเสียง รูปร่างใดที่ตรงกับเสียงนั้น? กรุณาเลือก A หรือ B.", "lingual": "th"}
+{"id": "INSTR-015_et", "prompt": "Sa kuuled heli. On kaks kuju: üks ümar ja üks terav. Milline kuju vastab helile? Vasta ainult ühe sõnaga: “ümar” või “terav”.", "lingual": "et"}
+{"id": "INSTR-016_et", "prompt": "Vaata kahte kujundit ja kuula heli. Milline kujund vastab helile? Palun vali A või B.", "lingual": "et"}
+{"id": "INSTR-015_fa", "prompt": "شما یک صدا خواهید شنید. دو شکل وجود دارد: یکی گرد و یکی نوک‌تیز. کدام شکل با این صدا مطابقت دارد؟ فقط با یک کلمه پاسخ دهید: «گرد» یا «نوک‌تیز».", "lingual": "fa"}
+{"id": "INSTR-016_fa", "prompt": "به دو شکل نگاه کنید و به صدا گوش دهید. کدام شکل با صدا مطابقت دارد؟ لطفاً A یا B را انتخاب کنید.", "lingual": "fa"}
+{"id": "INSTR-015_sq", "prompt": "Do të dëgjoni një tingull. Ka dy forma: një e rrumbullakët dhe një e mprehtë. Cila formë i përgjigjet tingullit? Përgjigjuni vetëm me një fjalë: “e rrumbullakët” ose “e mprehtë”.", "lingual": "sq"}
+{"id": "INSTR-016_sq", "prompt": "Shikoni dy format dhe dëgjoni tingullin. Cila formë korrespondon me tingullin? Ju lutemi zgjidhni A ose B.", "lingual": "sq"}
+{"id": "INSTR-015_hy", "prompt": "Դուք կլսեք մի ձայն: Կա երկու ձև՝ մեկը կլոր, մյուսը՝ սուր: Ո՞ր ձևն է համապատասխանում ձայնին: Պատասխանեք միայն մեկ բառով՝ «կլոր» կամ «սուր»:", "lingual": "hy"}
+{"id": "INSTR-016_hy", "prompt": "Նայեք երկու ձևերին և լսեք ձայնը։ Ո՞ր ձևը համապատասխանում է ձայնին։ Խնդրում ենք ընտրել A կամ B։", "lingual": "hy"}
+{"id": "INSTR-015_ka", "prompt": "თქვენ გაიგონებთ ხმას. არის ორი ფორმა: ერთი მრგვალი და ერთი წვეტიანი. რომელი ფორმა შეესაბამება ხმას? უპასუხეთ მხოლოდ ერთი სიტყვით: „მრგვალი” ან „წვეტიანი”.", "lingual": "ka"}
+{"id": "INSTR-016_ka", "prompt": "შეხედეთ ორ ფორმას და მოუსმინეთ ხმას. რომელი ფორმა შეესაბამება ხმას? გთხოვთ აირჩიოთ A ან B.", "lingual": "ka"}
+{"id": "INSTR-015_zu", "prompt": "Uzozwa umsindo. Kunezimo ezimbili: esisodwa siyindilinga futhi esisodwa sicijile. Yisiphi isimo esihambisana nomsindo? Phendula ngegama elilodwa kuphela: “indilinga” noma “ocijile”.", "lingual": "zu"}
+{"id": "INSTR-016_zu", "prompt": "Bheka lezi zinhlaka ezimbili bese ulalela umsindo. Iyiphi inhlaka ehambisana nomsindo? Sicela ukhethe A noma B.", "lingual": "zu"}
