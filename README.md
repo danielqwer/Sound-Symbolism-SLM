@@ -1,52 +1,63 @@
 # Hearing Like Humans? Sound Symbolism and Perceptual Alignment in Speech Language Models
 
-## Models
+Code for the paper's four behavioral experiments: auditory classification, auditory ratings, sound–shape matching, and visual ratings. [Citation](CITATION.cff).
 
-`qwen3-omni`, `minicpm-o-4.5`, `gemma-4-e4b`, `audio-flamingo3`, `kimi-audio`,
-`step-audio2`, `gpt-audio-1.5`, `gemini-3.5-flash`. The HF repo / API id for each is
-in `scripts/config.py`. Set up an environment for each local model as its upstream
-requires; API models read keys from `.env`.
-
-## Data
-
-The stimuli and trial grids are **not yet included** — we will release them as soon as
-possible. Model responses are produced by running the pipeline, not distributed. Data
-locations are configurable in `analysis/paths.py`.
-
-The third-party human ratings used in the analysis are public:
-- Lacey et al. 2020 — [OSF y9zjc](https://osf.io/y9zjc/): `RSA_Ordered_P_to_R_culled.mat`,
-  `pseudowords537_Final_YJ.mat`, `image_data.mat`, pseudoword `wavs/`, `voiceReportData.xlsx`.
-- Ćwiek et al. 2022 — [OSF w7crs](https://osf.io/w7crs/): `web_by_trial.csv` (auditory web experiment).
-
-`scripts/fetch_data.py` downloads these OSF resources into `data/human/`.
+![Experimental design](assets/experimental-design.png)
 
 ## Setup
 
 ```bash
-cp .env.example .env        # then fill in OPENAI_API_KEY / GEMINI_API_KEY
-pip install numpy pandas scipy soundfile openpyxl pyarrow
+pip install -r requirements.txt
+cp .env.example .env
+export BK_DATA_DIR="$PWD/../sound-symbolism-data"
 ```
+
+Set API keys in `.env`. For local models, install the checkpoint's upstream runtime separately; model IDs and adapters are listed in [scripts/config.py](scripts/config.py). The response judge requires Qwen3.6, vLLM, and a GPU.
+
+## Data
+
+Third-party data is not included. Download from [Ćwiek et al.](https://osf.io/w7crs/) (bouba/kiki audio), [McCormick et al.](https://osf.io/ekpgh/) (pseudowords and shapes), and [Lacey et al.](https://osf.io/y9zjc/) (human ratings and dissimilarities), following their terms. [configs/data_sources.json](configs/data_sources.json) contains download links only. Data stays outside this repository in `BK_DATA_DIR`.
+
+```bash
+python scripts/fetch_data.py --groups human cwiek mccormick
+python scripts/prepare_sources.py --exps exp1 exp2 exp4
+```
+
+Experiment 3 also needs the rounded and spiky shape crops from Ćwiek et al.'s Figure 1; supply local copies matching the original experiment:
+
+```bash
+python scripts/prepare_sources.py --exps exp3 \
+  --rounded-shape /path/to/rounded.png --spiky-shape /path/to/spiky.png
+python scripts/build_trials.py
+python scripts/validate_data.py --check-media
+```
+
+Preparation writes local media manifests to `stimuli/` and prompts/seeds to `trials/` under `BK_DATA_DIR`. Expected trial counts per model are 1,500 / 32,220 / 1,500 / 5,400. Experiment 2 runs 537 words and excludes `Start-253` during analysis; Experiment 4 retains the archive's `e5_` trial IDs.
 
 ## Run
 
 ```bash
-# 1. build trial files from the downloaded grids
-python scripts/build_trials.py
-
-# 2. inference — one (model, exp)
 python scripts/run_experiment.py --model qwen3-omni --exp exp1 \
-    --out results/qwen3-omni/exp1.parquet
-
-# 3. LLM judge: parse each raw response into the scored value (needs a GPU)
+  --out results/qwen3-omni/exp1.parquet
 python scripts/judge.py --models qwen3-omni --exps exp1 --out-dir responses_csv
-
-# 4. tables
-python analysis/t1_congruence.py        # exp1 congruence
-python analysis/exp1_significance.py    # exp1 binomial (vs chance) + bouba-vs-kiki Wilcoxon
-python analysis/order_effect.py         # exp1 & exp3 position/order effect
-python analysis/t2_correlation.py       # exp2 first-order
-python analysis/t2_rank_agreement.py    # exp2 second-order RSA
-python analysis/t3_acoustic_rsa.py      # exp2 acoustic RSA
-python analysis/exp4_correlation.py     # exp4 first-order
-python analysis/exp4_rank_agreement.py  # exp4 second-order RSA
 ```
+
+Repeat for compatible model/experiment pairs in `scripts/config.py`. Inference resumes by trial ID; use `--lang en --limit 4` with a separate output path for a quick check. All experimental prompts are in [prompts/prompts.json](prompts/prompts.json).
+
+After generating and judging all required model responses, run the analysis scripts:
+
+```bash
+python analysis/t1_congruence.py
+python analysis/exp1_significance.py
+python analysis/exp3_congruence.py
+python analysis/order_effect.py
+python analysis/t2_correlation.py
+python analysis/t2_rank_agreement.py
+python scripts/fetch_data.py --groups acoustic
+python analysis/spectral_dsm.py
+python analysis/t3_acoustic_rsa.py
+python analysis/exp4_correlation.py
+python analysis/exp4_rank_agreement.py
+```
+
+Tables are written to `results/tables/`. The paper's logit-lens analysis is not included in this release.

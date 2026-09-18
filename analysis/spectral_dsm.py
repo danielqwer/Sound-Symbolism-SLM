@@ -1,4 +1,3 @@
-# Build the 3 spectral feature DSMs (tilt / FFT / envelope) from the pseudoword wavs.
 import os, sys
 import numpy as np, scipy.io as sio, scipy.signal as sg, soundfile as sf
 from scipy.stats import spearmanr
@@ -13,7 +12,7 @@ def cell(x):
 
 
 fn = sio.loadmat(f"{LACEY}/pseudowords537_Final_YJ.mat")["filenames_Final"]
-names = [cell(fn[i, 0]) for i in range(fn.shape[0])]            # filenames_Final order (= combo_dsm order)
+names = [cell(fn[i, 0]) for i in range(fn.shape[0])]
 Fs, TARGET = 22050, 10077
 
 
@@ -54,7 +53,7 @@ def fft_vec(y):
 def env_vec(y):
     w = 120
     k = np.ones(w) / w
-    up = np.sqrt(np.convolve(y**2, k, mode="same"))            # moving-RMS upper envelope; lower = -upper
+    up = np.sqrt(np.convolve(y**2, k, mode="same"))
     return np.concatenate([up, -up])
 
 

@@ -6,17 +6,17 @@ import sys
 import time
 import traceback
 
-_HERE = os.path.dirname(os.path.abspath(__file__))   # scripts/
-sys.path.insert(0, _HERE)                            # bk_common, config
-sys.path.insert(0, os.path.dirname(_HERE))           # repo root: src/ package
+_HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _HERE)
+sys.path.insert(0, os.path.dirname(_HERE))
 
-import bk_common as bk          # noqa: E402
-import config                   # noqa: E402
+import bk_common as bk
+import config
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", required=True)
+    ap.add_argument("--model", required=True, choices=list(config.MODELS))
     ap.add_argument("--exp", required=True, choices=config.ALL_EXPS)
     ap.add_argument("--out", required=True)
     ap.add_argument("--shard-idx", type=int, default=0)
@@ -28,7 +28,12 @@ def main():
     ap.add_argument("--run-id", default=None)
     args = ap.parse_args()
 
-    bk.load_api_file()              # pull API keys from repo-root .api into env
+    if args.shard_total < 1 or not 0 <= args.shard_idx < args.shard_total:
+        ap.error("require --shard-total >= 1 and 0 <= --shard-idx < --shard-total")
+    if args.limit < 0:
+        ap.error("--limit must be nonnegative")
+
+    bk.load_api_file()
     cfg = config.get(args.model)
     if args.exp not in cfg["exps"]:
         sys.exit(f"[skip] model '{args.model}' cannot run {args.exp} "
@@ -38,16 +43,11 @@ def main():
     samp = config.SAMPLING
     max_new = config.EXP_MAX_NEW_TOKENS.get(args.exp, samp["max_new_tokens"])
 
-    adapter = importlib.import_module(f"src.{cfg['module']}")
-    print(f"[load] {args.model} via src.{cfg['module']} ...", flush=True)
-    ctx = adapter.load(cfg)
-    version = adapter.model_version(cfg, ctx)
-    target_sr = getattr(adapter, "TARGET_SR", None)
-    print(f"[load] done. model_version={version} target_sr={target_sr}",
-          flush=True)
 
+    from validate_data import validate
+    validate(args.exp)
     trials = bk.load_trials(args.exp)
-    if args.lang:                                   # targeted re-run subset
+    if args.lang:
         keep = set(args.lang.split(","))
         trials = [t for t in trials if t.get("prompt_lang") in keep]
         print(f"[data] --lang {args.lang}: filtered to {len(trials)} trials", flush=True)
@@ -64,6 +64,16 @@ def main():
     done = {r["trial_id"] for r in rows}
     idx = [i for i in idx if trials[i]["trial_id"] not in done]
     print(f"[resume] {len(done)} done, {len(idx)} remaining", flush=True)
+
+    if not idx:
+        print("[done] no pending trials", flush=True)
+        return
+    adapter = importlib.import_module(f"src.{cfg['module']}")
+    print(f"[load] {args.model} via src.{cfg['module']} ...", flush=True)
+    ctx = adapter.load(cfg)
+    version = adapter.model_version(cfg, ctx)
+    target_sr = getattr(adapter, "TARGET_SR", None)
+    print(f"[load] done. model_version={version} target_sr={target_sr}", flush=True)
 
     SAVE_EVERY = 25
     for n, i in enumerate(idx):

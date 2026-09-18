@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the associated paper."
+type: software
+title: "Hearing Like Humans? Sound Symbolism and Perceptual Alignment in Speech Language Models"
+authors:
+  - family-names: Tsai
+    given-names: Yun-Shao
+  - family-names: Chen
+    given-names: Chun-Wei
+  - family-names: Yu
+    given-names: Chee-En
+  - family-names: Lin
+    given-names: Yi-Cheng
+  - family-names: Lee
+    given-names: Hung-yi
+repository-code: "https://github.com/danielqwer/Sound-Symbolism-SLM"

@@ -1,5 +1,3 @@
-# Position/order effect (exp1 & exp3): P(chose round | round listed 1st) vs 2nd, Wilcoxon
-# across languages. p_round = overall rate of the round response (response fixation).
 import os, sys, warnings
 import numpy as np, pandas as pd
 from scipy.stats import wilcoxon

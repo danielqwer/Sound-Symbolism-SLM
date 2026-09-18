@@ -1,0 +1,10 @@
+numpy
+pandas
+scipy
+soundfile
+openpyxl
+pyarrow
+Pillow
+librosa
+openai
+google-genai

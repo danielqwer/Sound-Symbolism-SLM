@@ -1,81 +1,78 @@
-# Download the third-party human reference data (OSF) into data/human/.
+import argparse
 import json
 import os
 import time
 import urllib.request
+from pathlib import Path
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-HUMAN = os.path.join(ROOT, "data", "human")
-LACEY = os.path.join(HUMAN, "lacey")
-ACOUSTIC = os.path.join(HUMAN, "lacey_acoustic")
-WAVS = os.path.join(ACOUSTIC, "wavs")
-CWIEK = os.path.join(HUMAN, "cwiek")
-
-OSF_LACEY = "y9zjc"
-OSF_CWIEK = "w7crs"
-LACEY_MATS = {"RSA_Ordered_P_to_R_culled.mat", "pseudowords537_Final_YJ.mat", "image_data.mat"}
+ROOT = Path(__file__).resolve().parents[1]
 
 
-def _get_json(url):
-    with urllib.request.urlopen(url, timeout=60) as r:
-        return json.load(r)
+def validate_file(path):
+
+    if not path.is_file() or not path.stat().st_size:
+        return False
+    with path.open("rb") as fh:
+        head = fh.read(512)
+    if b"<html" in head.lower() or b"<!doctype html" in head.lower():
+        return False
+    suffix = path.suffix.lower()
+    if suffix == ".wav":
+        return head[:4] == b"RIFF" and head[8:12] == b"WAVE"
+    if suffix == ".bmp":
+        return head[:2] == b"BM"
+    if suffix == ".xlsx":
+        return head[:2] == b"PK"
+    if suffix == ".mat":
+        return head.startswith(b"MATLAB") or head.startswith(b"\x89HDF")
+    return True
 
 
-def osf_files(node):
-    """Yield (name, download_url) for every file in an OSF project (recursive)."""
-    stack = [f"https://api.osf.io/v2/nodes/{node}/files/osfstorage/?page%5Bsize%5D=100"]
-    while stack:
-        page = _get_json(stack.pop())
-        for x in page["data"]:
-            a = x["attributes"]
-            if a["kind"] == "folder":
-                stack.append(x["relationships"]["files"]["links"]["related"]["href"])
-            else:
-                yield a["name"], x["links"]["download"]
-        nxt = page["links"].get("next")
-        if nxt:
-            stack.append(nxt)
-
-
-def download(url, dest, is_wav=False, retries=4):
-    if os.path.exists(dest) and os.path.getsize(dest) > 0:
+def download(url, dest, retries=4):
+    dest = Path(dest)
+    if validate_file(dest):
         return
-    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(dest.stem + ".download" + dest.suffix)
     for attempt in range(retries):
         try:
-            with urllib.request.urlopen(url, timeout=120) as r:
-                data = r.read()
-            if is_wav and data[:4] != b"RIFF":          # OSF rate-limit returns an HTML page
-                raise ValueError("not a WAV (rate-limited?)")
-            with open(dest, "wb") as f:
-                f.write(data)
+            with urllib.request.urlopen(url, timeout=120) as response, tmp.open("wb") as fh:
+                while chunk := response.read(1024 * 1024):
+                    fh.write(chunk)
+            if not validate_file(tmp):
+                raise ValueError(f"Invalid download: {url}")
+            tmp.replace(dest)
             return
-        except Exception as e:
+        except Exception:
+            tmp.unlink(missing_ok=True)
             if attempt == retries - 1:
-                print(f"  FAILED {os.path.basename(dest)}: {e}")
-            else:
-                time.sleep(2 * (attempt + 1))
+                raise
+            time.sleep(2 * (attempt + 1))
 
 
-def fetch_lacey():
-    print("Lacey (OSF y9zjc) ...")
-    for name, url in osf_files(OSF_LACEY):
-        if name in LACEY_MATS:
-            download(url, os.path.join(LACEY, name))
-        elif name == "voiceReportData.xlsx":
-            download(url, os.path.join(ACOUSTIC, name))
-        elif name.lower().endswith(".wav"):
-            download(url, os.path.join(WAVS, name), is_wav=True)
-
-
-def fetch_cwiek():
-    print("Cwiek (OSF w7crs) ...")
-    for name, url in osf_files(OSF_CWIEK):
-        if name == "web_by_trial.csv":
-            download(url, os.path.join(CWIEK, name))
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--groups", nargs="+", choices=["human", "cwiek", "mccormick", "acoustic"],
+                    default=["human"])
+    ap.add_argument("--out-dir", type=Path,
+                    default=Path(os.environ.get("BK_DATA_DIR") or ROOT.parent / "sound-symbolism-data").expanduser())
+    ap.add_argument("--list", action="store_true", help="List selected files without downloading")
+    args = ap.parse_args()
+    catalog = json.loads((ROOT / "configs/data_sources.json").read_text())
+    files = [r for r in catalog["files"] if r["group"] in args.groups]
+    failures = []
+    for row in files:
+        print(f"{row['path']} <- {row['url']}", flush=True)
+        if not args.list:
+            try:
+                download(row["url"], args.out_dir / row["path"])
+            except Exception as exc:
+                failures.append(row["path"])
+                print(f"FAILED: {exc}", flush=True)
+    if failures:
+        raise SystemExit(f"Failed to download {len(failures)} files. Rerun to resume: {failures}")
+    print(f"{'Listed' if args.list else 'Ready'}: {len(files)} files")
 
 
 if __name__ == "__main__":
-    fetch_lacey()
-    fetch_cwiek()
-    print("done.")
+    main()

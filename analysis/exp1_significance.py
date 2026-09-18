@@ -1,5 +1,3 @@
-# Exp1 congruence with significance: per number, * = binomial vs chance 0.5 (choosing,
-# not guessing); per model, bouba-vs-kiki congruence Wilcoxon across languages (dir + †).
 import os, sys, warnings
 import numpy as np, pandas as pd
 from scipy.stats import binomtest, wilcoxon

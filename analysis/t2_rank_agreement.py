@@ -1,4 +1,3 @@
-# Exp2 second-order RSA: model pseudoword RDM vs human RDM (Spearman + Mantel).
 import os, sys, re, warnings
 import numpy as np, pandas as pd, scipy.io as sio
 from scipy.stats import spearmanr, rankdata
@@ -19,7 +18,7 @@ fn = sio.loadmat(f"{LACEY}/pseudowords537_Final_YJ.mat")["filenames_Final"]
 ff = [base(cc(fn[i, 0])) for i in range(537)]
 M = sio.loadmat(f"{LACEY}/RSA_Ordered_P_to_R_culled.mat")
 combo_dsm = M["combo_Final_Order_culled_dsm"]
-raters = M["combo_Final_Order_culled"]                          # 31 x 537
+raters = M["combo_Final_Order_culled"]
 keep = [i for i, b in enumerate(ff) if b != "253"]
 order = [ff[i] for i in keep]
 pos = {b: k for k, b in enumerate(order)}
@@ -51,7 +50,7 @@ def mantel(A, valid, nperm=10000, seed=123):
     msk = ~(np.isnan(a) | np.isnan(b))
     ar, br = rankdata(a[msk]), rankdata(b[msk])
     obs = np.corrcoef(ar, br)[0, 1]
-    Br = np.zeros((m, m))                                       # human rank matrix, for label permutation
+    Br = np.zeros((m, m))
     full = rankdata(H[np.ix_(idx, idx)][iu])
     Br[iu] = full
     Br[(iu[1], iu[0])] = full
@@ -69,7 +68,7 @@ def mantel(A, valid, nperm=10000, seed=123):
     return obs, big / (nperm + 1), m
 
 
-def ceiling(nperm=500, seed=0):                                # split-half reliability of the human RDM
+def ceiling(nperm=500, seed=0):
     rng = np.random.default_rng(seed)
     vals = []
     for _ in range(nperm):

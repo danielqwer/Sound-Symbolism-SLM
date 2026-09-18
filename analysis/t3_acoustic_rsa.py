@@ -1,4 +1,3 @@
-# Exp2 acoustic RSA: model RDM vs 10 acoustic-parameter DSMs (Spearman + Mantel).
 import os, sys, re, warnings
 import numpy as np, pandas as pd, scipy.io as sio
 from scipy.stats import spearmanr, rankdata
@@ -18,7 +17,7 @@ def base(w):
 
 
 fn = sio.loadmat(f"{LACEY}/pseudowords537_Final_YJ.mat")["filenames_Final"]
-ff = [base(cell(fn[i, 0])) for i in range(537)]                 # 537 base ids, filenames_Final order
+ff = [base(cell(fn[i, 0])) for i in range(537)]
 combo_dsm = sio.loadmat(f"{LACEY}/RSA_Ordered_P_to_R_culled.mat")["combo_Final_Order_culled_dsm"]
 
 P = {}
@@ -29,12 +28,12 @@ xl = pd.read_excel(f"{ACOUSTIC}/voiceReportData.xlsx", sheet_name="Sheet1")
 vcols = {"autocorrelation": "Autocorr", "HNR": "HNR", "fraction_unvoiced": "FUF", "pulse_number": "Pulse #",
          "jitter": "Jitter", "shimmer": "Shimmer", "pitch_SD": "Pitch std dev"}
 for lab, col in vcols.items():
-    v = xl[col].values[::-1].astype(float)                      # xlsx is reverse order -> filenames_Final
-    P[lab] = np.abs(v[:, None] - v[None, :])                    # 1-D |diff| DSM
+    v = xl[col].values[::-1].astype(float)
+    P[lab] = np.abs(v[:, None] - v[None, :])
 PARAMS = ["spectral_tilt", "temporal_FFT", "speech_envelope", "autocorrelation", "HNR",
           "fraction_unvoiced", "pulse_number", "jitter", "shimmer", "pitch_SD"]
 
-keep = [i for i, b in enumerate(ff) if b != "253"]              # 536 shared words
+keep = [i for i, b in enumerate(ff) if b != "253"]
 order = [ff[i] for i in keep]
 pos = {b: k for k, b in enumerate(order)}
 combo_dsm = combo_dsm[np.ix_(keep, keep)]

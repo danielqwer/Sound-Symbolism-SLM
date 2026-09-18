@@ -1,4 +1,3 @@
-# Exp2 first-order model/human combine correlation (Pearson + Spearman).
 import os, sys, re, warnings
 import numpy as np, pandas as pd, scipy.io as sio
 from scipy.stats import pearsonr, spearmanr
@@ -19,11 +18,11 @@ def base(w):
 
 fn = sio.loadmat(f"{LACEY}/pseudowords537_Final_YJ.mat")["filenames_Final"]
 ff = [base(cell(fn[i, 0])) for i in range(537)]
-A = sio.loadmat(f"{LACEY}/RSA_Ordered_P_to_R_culled.mat")["combo_Final_Order_culled"]  # 31 x 537
+A = sio.loadmat(f"{LACEY}/RSA_Ordered_P_to_R_culled.mat")["combo_Final_Order_culled"]
 ROUND, POINT = np.arange(0, 17), np.arange(17, 31)
 hcomb = (np.nanmean(A[ROUND], 0) - np.nanmean(A[POINT], 0) + 8) / 2.0
 
-keep = [i for i, b in enumerate(ff) if b != "253"]              # 536 shared words
+keep = [i for i, b in enumerate(ff) if b != "253"]
 order = [ff[i] for i in keep]
 pos = {b: k for k, b in enumerate(order)}
 n = len(order)

@@ -1,4 +1,3 @@
-# Exp4 first-order model/human shape-combine correlation (Pearson + Spearman).
 import os, sys
 import pandas as pd, numpy as np, scipy.io as sio
 from scipy.stats import pearsonr, spearmanr
@@ -19,7 +18,7 @@ def model_combine(mdl):
     return ((g["rounded"] - g["pointed"] + 8) / 2).to_dict()
 
 
-S = sio.loadmat(f"{LACEY}/image_data.mat")["sorted_by_rating_all_P_to_R"].astype(float)  # 30 raters x 90
+S = sio.loadmat(f"{LACEY}/image_data.mat")["sorted_by_rating_all_P_to_R"].astype(float)
 idxcol = np.arange(S.shape[1])
 slope = np.array([np.corrcoef(S[r], idxcol)[0, 1] for r in range(S.shape[0])])
 ROUND = np.where(slope > 0)[0]

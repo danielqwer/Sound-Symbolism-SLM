@@ -7,6 +7,7 @@ import sys
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from bk_common import DATA
 
 JUDGE_HF = "Qwen/Qwen3.6-35B-A3B"
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +15,7 @@ ROOT = os.path.dirname(HERE)
 
 
 def gpu_count():
-    """GPU count from SLURM env, without initializing CUDA in the parent."""
+
     cvd = os.environ.get("CUDA_VISIBLE_DEVICES")
     if cvd:
         return len([x for x in cvd.split(",") if x.strip()])
@@ -85,13 +86,13 @@ OUT_COLS = ["trial_id", "prompt_lang", "scale", "stimulus_id", "sample_idx",
 
 
 def load_trials_cols(exp):
-    tri = pd.read_csv(f"{ROOT}/data/trials/{exp}.csv")
+    tri = pd.read_csv(DATA / "trials" / f"{exp}.csv")
     extra = [c for c in ("phoneme", "word_rounded", "word_spiky") if c in tri]
     return tri[["trial_id", "prompt_text"] + extra]
 
 
 def finish(df, model, exp, llm, tok, out_dir):
-    """df must carry raw_answer + prompt_text (+ word_rounded/word_spiky for exp1)."""
+
     from vllm import SamplingParams
 
     parser = PARSER[exp]
@@ -133,10 +134,6 @@ def main():
     ap.add_argument("--out-dir", default=f"{ROOT}/responses_csv")
     args = ap.parse_args()
 
-    import torch
-    from vllm import LLM
-    from transformers import AutoTokenizer
-
     pairs = []
     for pq in sorted(glob.glob(f"{ROOT}/results/*/*.parquet")):
         model = os.path.basename(os.path.dirname(pq))
@@ -148,6 +145,14 @@ def main():
         if exp in PARSER:
             pairs.append((model, exp))
     print("judging:", pairs, flush=True)
+
+    if not pairs:
+        ap.error("No matching results/<model>/<exp>.parquet files found")
+    import torch
+    from vllm import LLM
+    from transformers import AutoTokenizer
+    if torch.cuda.device_count() == 0:
+        ap.error("The LLM judge requires at least one visible CUDA GPU")
 
     tok = AutoTokenizer.from_pretrained(JUDGE_HF)
     llm = LLM(model=JUDGE_HF, tensor_parallel_size=torch.cuda.device_count(),

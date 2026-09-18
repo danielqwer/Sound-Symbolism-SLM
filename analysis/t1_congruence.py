@@ -1,4 +1,3 @@
-# Exp1 per-language forced-choice congruence, P(round|bouba) / P(spiky|kiki).
 import os, sys
 import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -10,7 +9,7 @@ MODELS = [("gemini-3.5-flash", "Gemini3.5-Flash"), ("gpt-audio-1.5", "GPT-Audio"
           ("gemma-4-e4b", "Gemma4-E4B"), ("audio-flamingo3", "AudioFlamingo3"),
           ("kimi-audio", "Kimi-Audio"), ("step-audio2", "Step-Audio2")]
 CW = {"en": "EN", "ja": "JP", "zh-cn": "CN", "pt": "PT", "fr": "FR",
-      "tr": "TR", "it": "IT", "de": "DE", "pl": "PL", "hu": "HU"}  # our code -> Cwiek code
+      "tr": "TR", "it": "IT", "de": "DE", "pl": "PL", "hu": "HU"}
 
 
 def model_rs(mdl, lang):

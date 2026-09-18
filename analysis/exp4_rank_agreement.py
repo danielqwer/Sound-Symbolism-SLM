@@ -1,4 +1,3 @@
-# Exp4 second-order RSA: model shape RDM vs human shape RDM (Spearman + Mantel).
 import os, sys
 import pandas as pd, numpy as np, scipy.io as sio
 from scipy.stats import spearmanr
@@ -8,10 +7,10 @@ from paths import LACEY, RESP, OUT
 m = sio.loadmat(f"{LACEY}/image_data.mat")
 D = m["images_dsm"]
 mr = m["means_round_ordered"]
-S = m["sorted_by_rating_all_P_to_R"].astype(float)             # 30 raters x 90
+S = m["sorted_by_rating_all_P_to_R"].astype(float)
 SET = "ABCDEF"
 sid = lambda i: f"mccormick_shape_{SET[i//15]}{i%15+1}"
-order = [sid(int(mr[r, 1]) - 1) for r in range(90)]            # images_dsm sorted P->R order
+order = [sid(int(mr[r, 1]) - 1) for r in range(90)]
 iu = np.triu_indices(90, 1)
 Dt = D[iu]
 Drank = pd.Series(Dt).rank().values
